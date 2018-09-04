@@ -19,27 +19,6 @@ public class Pagina {
     private String ruta;
     
     public  Pagina(String rutaPagina){
-        pag=new File(rutaPagina);
-        this.ruta=rutaPagina;
-    }
-    
-    public String loadPage(){
-        String result="";
-        try{
-            FileReader fReader= new FileReader(pag);
-            BufferedReader leer = new BufferedReader(fReader);
-            String a;
-            while((a = leer.readLine())!= null)
-                result+=a+"\n";
-            leer.close();
-        }catch(FileNotFoundException ex){
-            ex.printStackTrace();
-            
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-        
-        return result;
     }
     
    
