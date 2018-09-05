@@ -17,11 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import static sun.security.krb5.Confounder.bytes;
@@ -39,15 +35,17 @@ public class Funciones {
     }
     
     public void ejecutar ()throws IOException{
-        
+        try{
+            
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String inputLine, outputLine;
         String resultado;   
-        while ((inputLine = in.readLine()) != null) {
-            try {
-                inputLine = inputLine.split(" ")[1];
-                System.out.println(inputLine);
+        while ((inputLine = in.readLine()) != null ) { 
+            if (inputLine != " ") {
+                try{
+                inputLine=inputLine.split(" ")[1];}
+                catch(Exception e){}
                 if (inputLine.endsWith(".html")) {
                     
                     
@@ -55,12 +53,12 @@ public class Funciones {
                     resultado = " ";
                     try {
                         FileReader fReader = new FileReader(pagina);
-                        BufferedReader bReader = new BufferedReader(fReader);
-                        String line;
-                        while ((line = bReader.readLine()) != null) {
-                            resultado += line;
+                        try (BufferedReader bReader = new BufferedReader(fReader)) {
+                            String line;
+                            while ((line = bReader.readLine()) != null) {
+                                resultado += line;
+                            }
                         }
-                        bReader.close();
                     } catch (IOException ex) {
                         System.err.println("Error en la lectura del Buffer");
                         ex.printStackTrace();
@@ -100,12 +98,13 @@ public class Funciones {
                     socket.getOutputStream().write(pantalla);
                     out.println(outputLine);
                     socket.close();
-
                 }
-            } catch (Exception e) {
-
-            }
         }
-        
+        }
     }
+    catch(IOException e) {
+        
+    }       
+    }
+       
 }
