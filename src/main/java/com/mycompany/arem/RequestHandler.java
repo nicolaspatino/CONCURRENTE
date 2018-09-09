@@ -26,17 +26,24 @@ import static sun.security.krb5.Confounder.bytes;
  *
  * @author nicolas
  */
-public class Funciones {
+public class RequestHandler {
     private File imagen;
     private Socket socket;
     private ObjectOutputStream salida;
-    public Funciones(Socket sock){
+       /**
+     * metodo creador de RequestHandler
+     * @param sock representa el socket de cliente que se va a usar 
+     */
+    public RequestHandler(Socket sock){
         this.socket=sock;
     }
-    
+     /**
+     * metodo encargado de leer las peticiones recibidas, extraera los bytes de un encabezado
+     * y del archivo de la peticion y se los mostrara a el usuario segun el tipo de archivo (png o html)
+     *@throws IOException
+     */
     public void ejecutar ()throws IOException{
-        try{
-            
+        try{     
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String inputLine, outputLine;
@@ -52,6 +59,7 @@ public class Funciones {
                     File pagina = new File("./" + inputLine);
                     resultado = " ";
                     try {
+                        System.out.println(pagina);
                         FileReader fReader = new FileReader(pagina);
                         try (BufferedReader bReader = new BufferedReader(fReader)) {
                             String line;
@@ -72,8 +80,7 @@ public class Funciones {
                             + resultado;
                     out.println(outputLine);
                     socket.close();
-                }else if(inputLine.endsWith(".png")){
-                    
+                }else if(inputLine.endsWith(".png")){ 
                     BufferedImage bufferedImage = ImageIO.read(new File(inputLine.substring(1,inputLine.length())));                   
                     ByteArrayOutputStream salidaImagen = new ByteArrayOutputStream();                  
                     ImageIO.write(bufferedImage, "png", salidaImagen);                    
@@ -98,7 +105,33 @@ public class Funciones {
                     socket.getOutputStream().write(pantalla);
                     out.println(outputLine);
                     socket.close();
+                }else{
+                    
+                    File pagina = new File("./" + "index.html");
+                    resultado = " ";
+                    try {
+                        FileReader fReader = new FileReader(pagina);
+                        try (BufferedReader bReader = new BufferedReader(fReader)) {
+                            String line;
+                            while ((line = bReader.readLine()) != null) {
+                                resultado += line;
+                            }
+                        }
+                    } catch (IOException ex) {
+                        System.err.println("Error en la lectura del Buffer");
+                        ex.printStackTrace();
+                    }
+                    if (!in.ready()) {
+                        break;
+                    }
+                    outputLine = "HTTP/1.1 200 OK\r\n"
+                            + "Content-Type: text/html\r\n"
+                            + "\r\n"
+                            + resultado;
+                    out.println(outputLine);
+                    socket.close();
                 }
+                
         }
         }
     }

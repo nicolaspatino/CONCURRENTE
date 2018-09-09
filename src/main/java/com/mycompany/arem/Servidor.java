@@ -37,7 +37,7 @@ public class Servidor {
                 System.err.println("Accept failed.");
                 System.exit(1);
             }    
-             Funciones func= new Funciones(clientSocket);
+             RequestHandler func= new RequestHandler(clientSocket);
              func.ejecutar();
         }
        
