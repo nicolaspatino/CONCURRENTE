@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.file.Files;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import static sun.security.krb5.Confounder.bytes;
@@ -81,11 +82,10 @@ public class RequestHandler {
                     out.println(outputLine);
                     socket.close();
                 }else if(inputLine.endsWith(".png")){ 
-                    BufferedImage bufferedImage = ImageIO.read(new File(inputLine.substring(1,inputLine.length())));                   
-                    ByteArrayOutputStream salidaImagen = new ByteArrayOutputStream();                  
-                    ImageIO.write(bufferedImage, "png", salidaImagen);                    
-                    byte[] bytesImagen = salidaImagen.toByteArray();
-                    resultado = "" + bytesImagen.length;
+                    try{
+                    byte[] bytesImagen = null;
+                    bytesImagen = Files.readAllBytes(new File("./" + inputLine).toPath());
+                    resultado = "" + bytesImagen.length;                            
                     String formato = "image/png"; 
                     outputLine = "HTTP/1.1 200 OK\r\n"
                     + "Content-Type: "
@@ -105,6 +105,10 @@ public class RequestHandler {
                     socket.getOutputStream().write(pantalla);
                     out.println(outputLine);
                     socket.close();
+                    }catch(Exception e){
+                        
+                    
+                    }
                 }else{
                     
                     File pagina = new File("./" + "index.html");
