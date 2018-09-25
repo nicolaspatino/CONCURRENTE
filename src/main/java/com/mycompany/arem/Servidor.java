@@ -5,9 +5,12 @@
  */
 package com.mycompany.arem;
 
+import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -29,6 +32,8 @@ public class Servidor {
             System.exit(1);
         }
         Socket clientSocket = null;
+        
+        ExecutorService ex= Executors.newFixedThreadPool(25);
         while (true) {
             try {
                 System.out.println("Listo para recibir ...");
@@ -37,10 +42,8 @@ public class Servidor {
                 System.err.println("Accept failed.");
                 System.exit(1);
             }    
-             RequestHandler func= new RequestHandler(clientSocket);
-             func.ejecutar();
+            RequestHandler func= new RequestHandler(clientSocket);
+            ex.execute(func);
         }
-       
-      
     }
 }
