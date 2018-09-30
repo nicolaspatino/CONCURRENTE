@@ -17,24 +17,17 @@ import java.util.logging.Logger;
  * @author estudiante
  */
 public class Cliente {
-    public static Integer threads= 4;
-    public static Integer request= 4;
-
-    
     public static void main(String[] args) throws IOException {
-        boolean isCompleted=false;
-        
-        ExecutorService executor = Executors.newFixedThreadPool(threads);
-        while (request>0){
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        int res = 0;
+        while (res<5){
             executor.execute(new URLReader(args));
-            request--;
+            res+=1;
         }
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
        
     }
-    
-    
         
 }

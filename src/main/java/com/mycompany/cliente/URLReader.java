@@ -16,22 +16,24 @@ public class URLReader implements Runnable  {
         this.args=args;
     }
  
-    @Override
+ @Override
     public void run() {
-      try {
-          URL url = new URL(this.args[0]);
-          try (BufferedReader reader = new BufferedReader(
-                  new InputStreamReader(url.openStream()))) {
-              String inputLine = null;
-              while ((inputLine = reader.readLine()) != null) {
-                  System.out.println(inputLine);
-              }
-          } catch (IOException x) { 
-              System.err.println(x);
-          }
-      } catch (MalformedURLException ex) { 
-               Logger.getLogger(URLReader.class.getName()).log(Level.SEVERE, null,ex); 
-       } 
-
+        long startTime = System.currentTimeMillis();
+        URL url;
+        try {
+            url = new URL(args[0]);
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(url.openStream()))) {
+                String inputLine = null;
+                while ((inputLine = reader.readLine()) != null) {
+                    System.out.println(inputLine);
+                }
+            } catch (IOException x) {
+                System.err.println(x);
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(URLReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("tiempo de ejecucion : " + startTime);
     }
 }
