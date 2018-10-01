@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.mycompany.arem.Servidor
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.mycompany.reflexWebServer.ReflexWebServer
