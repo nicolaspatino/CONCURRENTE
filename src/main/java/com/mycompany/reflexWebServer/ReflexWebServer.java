@@ -8,6 +8,10 @@ package com.mycompany.reflexWebServer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+/**
+ * ejecuta el servidor con una clase y servidor definidos
+ * @author Nicolas Patiño
+ */
 public class ReflexWebServer {
 
     public static void main(String[] args) throws Exception {

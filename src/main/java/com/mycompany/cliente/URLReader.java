@@ -15,7 +15,11 @@ public class URLReader implements Runnable  {
     URLReader(String[] args) {
         this.args=args;
     }
- 
+  /**
+     * Metodo encargado de la ejecucion de los hilos de la clase cliente y de
+     * su tiempo de ejecucion
+     */
+
  @Override
     public void run() {
         long startTime = System.currentTimeMillis();

@@ -14,9 +14,15 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author estudiante
+ * @author Nicolas Patiño
  */
 public class Cliente {
+        
+    /**
+     * @param args
+     * @throws IOException 
+     */
+
     public static void main(String[] args) throws IOException {
         ExecutorService executor = Executors.newFixedThreadPool(5);
         int res = 0;

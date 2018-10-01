@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ *Anotacion de las clases las clases
  * @author Nicolas Patiño
  */
     @Retention(RetentionPolicy.RUNTIME)
